@@ -17,6 +17,7 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'tpope/vim-rsi'
 Plug 'mileszs/ack.vim'
 Plug 'vim-airline/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -37,11 +38,7 @@ call plug#end()
 " }}}
 
 " Options{{{
-if $TERM =~? '\(.*tmux.*\)\|\(.*xterm.*\)'
-  set termguicolors
-else
-  set notermguicolors
-endif
+set notermguicolors
 set hidden
 set autoindent
 set tabstop=4
@@ -59,7 +56,6 @@ set ruler
 set showcmd
 set number relativenumber
 set mouse=a
-set cursorline
 set hlsearch incsearch smartcase
 " }}}
 
@@ -68,7 +64,7 @@ let mapleader = ' '
 
 nnoremap <silent> <leader>/ :noh<CR>
 
-if HasPlugin('vim-yankstack')
+if !empty(glob(('~/.vim/plugged/vim-yankstack')))
   call yankstack#setup()
   nmap Y y$
 else
@@ -88,9 +84,9 @@ let s:remapped_keys = {
       \ }
 
 for original in keys(s:remapped_keys)
-  exe 'nnoremap ' . original . s:remapped_keys[original]
-  exe 'xnoremap ' . original . s:remapped_keys[original]
-  exe 'onoremap ' . original . s:remapped_keys[original]
+  exe 'nnoremap ' . original . ' ' .  s:remapped_keys[original]
+  exe 'xnoremap ' . original . ' ' .  s:remapped_keys[original]
+  exe 'onoremap ' . original . ' ' .  s:remapped_keys[original]
 endfor
 " }}}
 
