@@ -64,7 +64,6 @@ set ruler
 set showcmd
 set number relativenumber
 set mouse=a
-set cursorline
 set hlsearch incsearch smartcase
 " }}}
 
@@ -73,7 +72,7 @@ let mapleader = ' '
 
 nnoremap <silent> <leader>/ :noh<CR>
 
-if HasPlugin('vim-yankstack')
+if !empty(glob(('~/.vim/plugged/vim-yankstack')))
   call yankstack#setup()
   nmap Y y$
 else
@@ -103,9 +102,9 @@ let s:remapped_keys = {
       \ }
 
 for original in keys(s:remapped_keys)
-  exe 'nnoremap ' . original . s:remapped_keys[original]
-  exe 'xnoremap ' . original . s:remapped_keys[original]
-  exe 'onoremap ' . original . s:remapped_keys[original]
+  exe 'nnoremap ' . original . ' ' .  s:remapped_keys[original]
+  exe 'xnoremap ' . original . ' ' .  s:remapped_keys[original]
+  exe 'onoremap ' . original . ' ' .  s:remapped_keys[original]
 endfor
 " }}}
 
