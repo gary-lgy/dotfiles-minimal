@@ -1,6 +1,7 @@
 vim
 tmux
 fish
-htop
-net-tools
 ranger
+htop
+iotop
+net-tools
