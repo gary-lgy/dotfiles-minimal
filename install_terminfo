@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Pull terminfo for kitty and termite and install them
+
+set -eux
+
+MY_TERMINFO_DIR=~/tmp/terminfo
+mkdir -p "$MY_TERMINFO_DIR"
+cd "$MY_TERMINFO_DIR"
+
+# kitty
+wget https://raw.githubusercontent.com/kovidgoyal/kitty/master/terminfo/kitty.terminfo
+sudo tic -x kitty.terminfo
+
+# termite
+wget https://raw.githubusercontent.com/thestinger/termite/master/termite.terminfo
+sudo tic -x termite.terminfo
