@@ -2,16 +2,40 @@
 
 # Pull terminfo for kitty and termite and install them
 
-set -eux
+set -eu
 
-MY_TERMINFO_DIR=~/tmp/terminfo
-mkdir -p "$MY_TERMINFO_DIR"
-cd "$MY_TERMINFO_DIR"
+usage="Usage: install_terminfo ( -s | -h )"
+
+if [[ ! $# == 1 || ! $1 =~ ^-(s|h)$ ]]; then
+  echo "$usage"
+  exit 1
+fi
+
+if [[ $1 == -s ]]; then
+  system=1
+elif [[ $1 == -h ]]; then
+  system=0
+fi
+
+temp_dir=./terminfo
+mkdir -p "$temp_dir"
+cd "$temp_dir"
+
+function install {
+  if [[ $system == 1 ]]; then
+    sudo tic -x "$1"
+  elif [[ $system == 0 ]]; then
+    mkdir -p ~/.terminfo
+    TERMINFO="$HOME/.terminfo" tic -x "$1"
+  fi
+}
 
 # kitty
 wget https://raw.githubusercontent.com/kovidgoyal/kitty/master/terminfo/kitty.terminfo
-sudo tic -x kitty.terminfo
+install kitty.terminfo
 
 # termite
 wget https://raw.githubusercontent.com/thestinger/termite/master/termite.terminfo
-sudo tic -x termite.terminfo
+install termite.terminfo
+
+rm -rf "$temp_dir"
